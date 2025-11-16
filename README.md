@@ -27,7 +27,7 @@ Proteja o castelo derrotando os inimigos antes que cheguem até ele e o destrua!
 ## Instalação e execução
 
 ### 1️⃣ Pré-requisitos
-- [Python 3.x](https://www.python.org/downloads/)
+- [Python 3](https://www.python.org/downloads/)
 - [Pyxel](https://github.com/kitao/pyxel)
 
 ### 2️⃣ Instalar a biblioteca Pyxel
@@ -36,7 +36,7 @@ Proteja o castelo derrotando os inimigos antes que cheguem até ele e o destrua!
 
 ### 3️⃣ Executar o jogo
 
-Baixe o código-fonte e as imagens do repositório, coloque todos os arquivos em uma mesma pasta, e execute:
+Baixe o código-fonte e as imagens do repositório, garanta que estejam no mesmo endereço do pacote python e pyxel, então execute em seu terminal:
 
     python3 fightforcrystal.py
 
