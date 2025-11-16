@@ -398,29 +398,29 @@ class Inimigo_3:
         pyxel.rect(barra_x, barra_y, vida_atual, alt_barra, 2)     #Barra proporcional a vida
 
 class Inimigos:   #Gerencia os inimigos
-    def __init__(self, ordas):
+    def __init__(self, hordas):
         self.inimigos = []
         self.timer_spawn = 0
-        self.ordas = ordas         
+        self.hordas = hordas         
 
     def update(self, castelo):
         #Lista para devolver inimigos mortos
         mortos = []
 
         #Spawn dos inimigos
-        if not self.ordas.terminou_orda:
+        if not self.hordas.terminou_horda:
             self.timer_spawn += 1
             if self.timer_spawn > 40:
                 self.timer_spawn = 0
-                self.ordas.qtd_spaw += 1
+                self.hordas.qtd_spaw += 1
 
-                #pega inimigo da orda atual
-                novo = self.ordas.spawn_inimigo()
+                #pega inimigo da horda atual
+                novo = self.hordas.spawn_inimigo()
                 self.inimigos.append(novo)
 
-                #Verifica fim da orda
-                if self.ordas.qtd_spaw >= self.ordas.qtd_max:
-                    self.ordas.terminou_orda = True 
+                #Verifica fim da horda
+                if self.hordas.qtd_spaw >= self.hordas.qtd_max:
+                    self.hordas.terminou_horda = True 
 
         #Atualiza inimigos
         for inimigo in self.inimigos[:]:
@@ -473,53 +473,53 @@ class Moedas:    #Gerencia as moedas
         for moeda in self.moedas:
             moeda.draw()
 
-class Ordas:
+class Hordas:
     def __init__(self):
-        self.orda_atual = 1
+        self.horda_atual = 1
         self.qtd_spaw = 0
         self.qtd_max = 10
-        self.terminou_orda = False
+        self.terminou_horda = False
 
-    def proxima_orda(self):
-        if self.terminou_orda:
-            self.orda_atual += 1
+    def proxima_horda(self):
+        if self.terminou_horda:
+            self.horda_atual += 1
             self.qtd_spaw = 0
-            self.terminou_orda = False
+            self.terminou_horda = False
 
             #Aumenta a dificuldade gradativamente
-            if self.orda_atual == 2:
+            if self.horda_atual == 2:
                 self.qtd_max = 12
-            elif self.orda_atual == 3:
+            elif self.horda_atual == 3:
                 self.qtd_max = 12
-            elif self.orda_atual == 4:
+            elif self.horda_atual == 4:
                 self.qtd_max = 15
-            elif self.orda_atual == 5:
+            elif self.horda_atual == 5:
                 self.qtd_max = 15
-            elif self.orda_atual == 6:
+            elif self.horda_atual == 6:
                 self.qtd_max = 25
-            elif self.orda_atual == 7:
+            elif self.horda_atual == 7:
                 self.qtd_max = 35
-            elif self.orda_atual == 8:
+            elif self.horda_atual == 8:
                 self.qtd_max = 40
             
     def spawn_inimigo(self):
         todos = [Inimigo(), Inimigo_2(), Inimigo_3()]
-        #Define qual inimigo nasce em cada orda
-        if self.orda_atual == 1:
+        #Define qual inimigo nasce em cada horda
+        if self.horda_atual == 1:
             return Inimigo()
-        elif self.orda_atual == 2:
+        elif self.horda_atual == 2:
             return Inimigo()
-        elif self.orda_atual == 3:
+        elif self.horda_atual == 3:
             return Inimigo_2()
-        elif self.orda_atual == 4:
+        elif self.horda_atual == 4:
             return random.choice([Inimigo(), Inimigo_2()])
-        elif self.orda_atual == 5:
+        elif self.horda_atual == 5:
             return Inimigo_3()
-        elif self.orda_atual == 6:
+        elif self.horda_atual == 6:
             return random.choice([Inimigo(), Inimigo_3()])
-        elif self.orda_atual == 7:
+        elif self.horda_atual == 7:
             return random.choice([Inimigo_2(), Inimigo_3()])
-        elif self.orda_atual == 8:
+        elif self.horda_atual == 8:
             return random.choice(todos)
 
 class Castelo:
@@ -605,7 +605,7 @@ class Torre:
         self.x = x 
         self.y = y 
         self.alcance = 60
-        self.recarga = 50     #Tempo entre ataques
+        self.recarga = 50     
         self.timer = 0
         self.flechas = []
         self.direçao = 1
@@ -613,7 +613,7 @@ class Torre:
         #Atributos para upgrade
         self.dano_flecha = 6
 
-        self.nivel_dano = 1         #Nível do dano
+        self.nivel_dano = 1         
         self.custo_dano = 120       #Custo inicial
         self.up_dano = 2            #O quanto vai aumentar p/ nível
 
@@ -748,10 +748,10 @@ class Jogo:
                 #recálculo do custo
                 alvo.custo_dano = int(custo * 1.5)
 
-                self.msg_orda = f'Dano atual: {alvo.dano}'
+                self.msg_horda = f'Dano atual: {alvo.dano}'
                 self.msg_timer = 60
             else:
-                self.msg_orda = 'MOEDAS INSUFICIENTES!'
+                self.msg_horda = 'MOEDAS INSUFICIENTES!'
                 self.msg_timer = 60 
 
         elif upgrade_tipo == 'torre_recarga':
@@ -765,10 +765,10 @@ class Jogo:
 
                 alvo.custo_recarga = int(custo * 1.5)
 
-                self.msg_orda = f'Recarga: {alvo.recarga}'
+                self.msg_horda = f'Recarga: {alvo.recarga}'
                 self.msg_timer = 60
             else:
-                self.msg_orda = 'MOEDAS INSUFICIENTES!'
+                self.msg_horda = 'MOEDAS INSUFICIENTES!'
                 self.msg_timer = 60
 
         elif upgrade_tipo == 'torre_dano':
@@ -782,10 +782,10 @@ class Jogo:
 
                 alvo.custo_dano = int(custo * 1.5)
 
-                self.msg_orda = f'Dano flecha: {alvo.dano_flecha}'
+                self.msg_horda = f'Dano flecha: {alvo.dano_flecha}'
                 self.msg_timer = 60
             else:
-                self.msg_orda = 'MOEDAS INSUFICIENTES!'
+                self.msg_horda = 'MOEDAS INSUFICIENTES!'
                 self.msg_timer = 60 
 
     def update_loja(self):
@@ -822,10 +822,10 @@ class Jogo:
                     if self.coins >= custo:
                         self.coins -= custo 
                         self.torre.comprada = True 
-                        self.msg_orda = f'TORRE ATIVADA! (-{custo} coins)'
+                        self.msg_horda = f'TORRE ATIVADA! (-{custo} coins)'
                         self.msg_timer = 60
                     else:
-                        self.msg_orda = 'MOEDAS INSUFICIENTES!'
+                        self.msg_horda = 'MOEDAS INSUFICIENTES!'
                         self.msg_timer = 60
 
             #Clique upgrade personagem
@@ -846,12 +846,12 @@ class Jogo:
         self.torre = Torre(80, 38)
         self.p = Personagem(60, 60)
         self.cast = Castelo(0, 50)
-        self.ordas = Ordas()
-        self.inimigos = Inimigos(self.ordas)
+        self.hordas = Hordas()
+        self.inimigos = Inimigos(self.hordas)
         self.moedas = Moedas()
         self.pontuaçao = 0
         self.coins = 0
-        self.msg_orda = ''
+        self.msg_horda = ''
         self.msg_timer = 0
         
         #Ataque com a espada
@@ -890,10 +890,10 @@ class Jogo:
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) and clicou:
             self.estado = 'loja'
 
-        #Quando a orda acabar e todos morrerem, avança
-        if self.ordas.terminou_orda and len(self.inimigos.inimigos) == 0:
-            self.ordas.proxima_orda()
-            self.msg_orda = f'ORDA {self.ordas.orda_atual} / 8'
+        #Quando a horda acabar e todos morrerem, avança
+        if self.hordas.terminou_horda and len(self.inimigos.inimigos) == 0:
+            self.hordas.proxima_horda()
+            self.msg_horda = f'HORDA {self.hordas.horda_atual} / 8'
             self.msg_timer = 60
              
         #Coletar moedas
@@ -922,7 +922,7 @@ class Jogo:
             self.estado = 'game_over'
              
         #Vitória
-        if self.ordas.orda_atual == 9 and len(self.inimigos.inimigos) == 0:
+        if self.hordas.horda_atual == 9 and len(self.inimigos.inimigos) == 0:
             self.estado = 'vitoria'
     
     def update(self):
@@ -1046,10 +1046,10 @@ class Jogo:
 
         pyxel.blt(btn_loja_x, btn_loja_y, 2, sprite_u, sprite_v, btn_larg, btn_alt, 0)
         
-        #Mensagem de orda
+        #Mensagem de horda
         if self.msg_timer > 0:
-            pyxel.text(69, 45, self.msg_orda, 0)   #sombra
-            pyxel.text(70, 45, self.msg_orda, 8)   #texto
+            pyxel.text(69, 45, self.msg_horda, 0)   #sombra
+            pyxel.text(70, 45, self.msg_horda, 8)   #texto
             self.msg_timer -= 1
             
     def draw_loja(self):
